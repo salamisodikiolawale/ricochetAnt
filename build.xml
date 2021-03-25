@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="RicochetRobot" default="compile" basedir=".">
+	<property name="projet.sources.dir" value="src"/>
+	<property name="projet.bin.dir" value="bin"/>
+	<property name="projet.lib.dir" value="lib"/>
+	<path id="projet.classpath">
+		<fileset dir="${projet.lib.dir}">
+		<include name="*.jar"/>
+		</fileset>
+		<pathelement location="${projet.bin.dir}"/>
+	</path>
+	<target name="compile" description="Compilation des classes">
+		<javac srcdir="${projet.sources.dir}" destdir="${projet.bin.dir}" debug="on" optimize="off" deprecation="on" includeantruntime="false">
+		<classpath refid="projet.classpath"/>
+		</javac>
+	</target>
+	<target name="init">
+		<echo message="Initialisation de ${ant.project.name}"/>
+		<delete dir="${basedir}/gen"/>
+		<mkdir dir="${basedir}/gen"/>
+	</target>
+	<target name="run" description="execution">
+		<java classname="PackageRR.execution.MainGraphique" fork="true">
+			<classpath refid="projet.classpath"/>
+		</java>
+	</target>
+	<target name="run2" description="execution2">
+		<java classname="PackageRR.execution.MainConsole" fork="true">
+			<classpath refid="projet.classpath"/>
+		</java>
+	</target>
+	<target name="javadoc">
+        <javadoc access="public" author="true" classpath="." destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="mvc,packageAEtoile,PackageRR.execution,PackageRR.Ihm,PackageRR" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+	<target name="jar">
+		<mkdir dir="${projet.lib.dir}"/>
+		<jar destfile="exe/ricochet.jar" basedir="${projet.bin.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="PackageRR.execution.MainGraphique"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
